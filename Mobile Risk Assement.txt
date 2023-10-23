@@ -1,0 +1,33 @@
+https://ips.zscaler.net/zpa
+https://help.zscaler.com/zpa/connector-deployment-prerequisites
+
+
+Spoofing 
+Improper Session Handling 
+Social Engineering 
+Malicious QR Code
+Untrusted NFC Tag or Peer
+Weak Authorization 
+Weak Authentication 
+Malicious Application
+Repudiation 
+Toll Fraud
+Missing Device
+Malware 
+Client Side Injection 
+Denial of Service
+Crashing APPS
+Push notifcation Flooding
+Excessive API Usage
+DDOS
+Elevation of Privilege 
+Rooted/Jailbroken
+Rootkits
+Weak Authorization
+Flawed Authentication 
+Compromised Credentials 
+Make unauthorized Purchase 
+Backend Breach
+Insecure WIFI Network 
+Carrirer Network Breach
+

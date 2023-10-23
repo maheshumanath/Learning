@@ -1,0 +1,457 @@
+
+
+Zscaler Connector Status 
+[admin@zpa-connector ~]$ sudo systemctl status zpa-connector
+[sudo] password for admin:
+? zpa-connector.service - Zscaler Private Access Connector
+   Loaded: loaded (/usr/lib/systemd/system/zpa-connector.service; enabled; vendor preset: enabled)
+   Active: active (running) since Thu 2020-03-19 19:52:14 UTC; 1 months 3 days ago
+ Main PID: 17970 (zpa-connector)
+   CGroup: /system.slice/zpa-connector.service
+           +-17970 /opt/zscaler/bin/zpa-connector
+           +-32353 zpa-connector-child
+
+Apr 22 18:28:05 zpa-connector zpa-connector-child[32353]: Registered apps count 1, alive apps 1, apps with on-access heal...ive 0
+Apr 22 18:28:05 zpa-connector zpa-connector-child[32353]: Time skew: local time lags cloud time by 0.015933s
+Apr 22 18:28:05 zpa-connector zpa-connector-child[32353]: FC f_conn [10.13.140.67]:34534;broker1a.pdx2.prod.zpath.net:[34.209....
+Apr 22 18:28:06 zpa-connector zpa-connector-child[32353]: FC f_conn [10.13.140.67]:43480;broker1a.pdx2.prod.zpath.net:[54.201....
+Apr 22 18:28:07 zpa-connector zpa-connector-child[32353]: FC f_conn [10.13.140.67]:44598;broker4.fra4.prod.zpath.net:[165.225....
+Apr 22 18:28:18 zpa-connector zpa-connector-child[32353]: FC f_conn [10.13.140.67]:55284;broker1a.pdx2.prod.zpath.net:[52.33.1...
+Apr 22 18:28:18 zpa-connector zpa-connector-child[32353]: FC f_conn [10.13.140.67]:47704;broker1a.fra5.prod.zpath.net:[52.28.3...
+Apr 22 18:28:21 zpa-connector zpa-connector-child[32353]: FC f_conn [10.13.140.67]:39790;broker1b.pdx2.prod.zpath.net:[52.88.2...
+Apr 22 18:28:28 zpa-connector zpa-connector-child[32353]: FC f_conn [10.13.140.67]:54710;broker2.fra4.prod.zpath.net:[165.225....
+Apr 22 18:28:31 zpa-connector zpa-connector-child[32353]: FC f_conn [10.13.140.67]:34562;broker1a.pdx2.prod.zpath.net:[54.201....
+Hint: Some lines were ellipsized, use -l to show in full.
+[admin@zpa-connector ~]$
+
+
+[admin@zpa-connector ~]$ dig google.com
+
+; <<>> DiG 9.11.4-P2-RedHat-9.11.4-9.P2.el7 <<>> google.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 12471
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4000
+;; QUESTION SECTION:
+;google.com.                    IN      A
+
+;; ANSWER SECTION:
+google.com.             115     IN      A       172.217.6.206
+
+;; Query time: 0 msec
+;; SERVER: 10.13.140.10#53(10.13.140.10)
+;; WHEN: Wed Apr 22 18:29:50 UTC 2020
+;; MSG SIZE  rcvd: 55
+
+[admin@zpa-connector ~]$
+
+[admin@zpa-connector ~]$ uptime
+ 18:30:51 up 34 days,  1:07,  2 users,  load average: 0.00, 0.01, 0.05
+[admin@zpa-connector ~]$
+
+UP Time and Load Average 
+[admin@zpa-connector ~]$ ^C
+[admin@zpa-connector ~]$ uptime
+ 18:30:51 up 34 days,  1:07,  2 users,  load average: 0.00, 0.01, 0.05
+[admin@zpa-connector ~]$ ^C
+
+RAM Utlization
+[admin@zpa-connector ~]$ grep -E "RAM" /var/log/dmesg
+[    0.000000] e820: BIOS-provided physical RAM map:
+[    0.000000] total RAM covered: 7168M
+[    0.000000]  gran_size: 64K  chunk_size: 8G  num_reg: 2      lose cover RAM: 0G
+[    0.000000] RAMDISK: [mem 0x328aa000-0x3544cfff]
+[    0.000000] Reserving 161MB of memory at 640MB for crashkernel (System RAM: 4095MB)
+[    1.251583] e820: reserve RAM buffer [mem 0x0009f800-0x0009ffff]
+[    1.251586] e820: reserve RAM buffer [mem 0xbfef0000-0xbfffffff]
+[    2.626413] systemd[1]: Running in initial RAM disk.
+[admin@zpa-connector ~]$
+
+Security Event 
+[admin@zpa-connector ~]$ sudo cat /var/log/secure
+[sudo] password for admin:
+Apr 22 18:21:04 zpa-connector sshd[14054]: Did not receive identification string from 10.13.140.65 port 36018
+Apr 22 18:21:04 zpa-connector sshd[14055]: Did not receive identification string from 10.13.140.66 port 57454
+Apr 22 18:21:11 zpa-connector sshd[14056]: Accepted password for admin from 10.13.140.65 port 36020 ssh2
+Apr 22 18:21:12 zpa-connector sshd[14056]: pam_unix(sshd:session): session opened for user admin by (uid=0)
+Apr 22 18:21:24 zpa-connector sshd[14061]: Accepted password for admin from 10.13.140.65 port 36072 ssh2
+Apr 22 18:21:25 zpa-connector sshd[14061]: pam_unix(sshd:session): session opened for user admin by (uid=0)
+Apr 22 18:25:01 zpa-connector sshd[14105]: Did not receive identification string from 10.13.140.66 port 58032
+Apr 22 18:25:03 zpa-connector sshd[14106]: Did not receive identification string from 10.13.140.65 port 36578
+Apr 22 18:28:33 zpa-connector sudo:   admin : TTY=pts/0 ; PWD=/home/admin ; USER=root ; COMMAND=/bin/systemctl status zpa-connector
+Apr 22 18:28:33 zpa-connector sudo: pam_unix(sudo:session): session opened for user root by admin(uid=0)
+Apr 22 18:28:33 zpa-connector sudo: pam_unix(sudo:session): session closed for user root
+Apr 22 18:28:46 zpa-connector sshd[14112]: Did not receive identification string from 10.13.140.66 port 58576
+Apr 22 18:29:07 zpa-connector sshd[14113]: Did not receive identification string from 10.13.140.65 port 37168
+Apr 22 18:33:00 zpa-connector sshd[14121]: Did not receive identification string from 10.13.140.65 port 37730
+Apr 22 18:33:03 zpa-connector sshd[14122]: Did not receive identification string from 10.13.140.66 port 59326
+Apr 22 18:34:14 zpa-connector sudo:   admin : TTY=pts/0 ; PWD=/home/admin ; USER=root ; COMMAND=/bin/cat /var/log/messages
+Apr 22 18:34:14 zpa-connector sudo: pam_unix(sudo:session): session opened for user root by admin(uid=0)
+Apr 22 18:35:21 zpa-connector sudo: pam_unix(sudo:session): session closed for user root
+Apr 22 18:36:58 zpa-connector sshd[14130]: Did not receive identification string from 10.13.140.66 port 60090
+Apr 22 18:37:10 zpa-connector sshd[14131]: Did not receive identification string from 10.13.140.65 port 38452
+Apr 22 18:40:38 zpa-connector sudo:   admin : TTY=pts/0 ; PWD=/home/admin ; USER=root ; COMMAND=/bin/cat /var/log/secure
+Apr 22 18:40:38 zpa-connector sudo: pam_unix(sudo:session): session opened for user root by admin(uid=0)
+[admin@zpa-connector ~]$
+
+
+List of User accounts can be view 
+[admin@zpa-connector ~]$ sudo cat /etc/passwd
+[sudo] password for admin:
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/spool/mail:/sbin/nologin
+operator:x:11:0:operator:/root:/sbin/nologin
+games:x:12:100:games:/usr/games:/sbin/nologin
+ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin
+nobody:x:99:99:Nobody:/:/sbin/nologin
+systemd-network:x:192:192:systemd Network Management:/:/sbin/nologin
+dbus:x:81:81:System message bus:/:/sbin/nologin
+polkitd:x:999:998:User for polkitd:/:/sbin/nologin
+rpc:x:32:32:Rpcbind Daemon:/var/lib/rpcbind:/sbin/nologin
+rpcuser:x:29:29:RPC Service User:/var/lib/nfs:/sbin/nologin
+nfsnobody:x:65534:65534:Anonymous NFS User:/var/lib/nfs:/sbin/nologin
+sshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologin
+postfix:x:89:89::/var/spool/postfix:/sbin/nologin
+chrony:x:998:995::/var/lib/chrony:/sbin/nologin
+tcpdump:x:72:72::/:/sbin/nologin
+zscaler:x:997:994:Zscaler Service Account:/opt/zscaler:/sbin/nologin
+admin:x:1000:1000:Zscaler Default User:/home/admin:/bin/bash
+[admin@zpa-connector ~]$
+
+UID will show to Particular User
+[admin@zpa-connector ~]$ id admin
+uid=1000(admin) gid=1000(admin) groups=1000(admin),4(adm),10(wheel),190(systemd-journal)
+[admin@zpa-connector ~]$
+
+[admin@zpa-connector ~]$ free
+              total        used        free      shared  buff/cache   available
+Mem:        3880640      495132     2289076      211264     1096432     2941908
+Swap:             0           0           0
+[admin@zpa-connector ~]$
+
+[admin@zpa-connector ~]$ free -h
+              total        used        free      shared  buff/cache   available
+Mem:           3.7G        483M        2.2G        206M        1.0G        2.8G
+Swap:            0B          0B          0B
+[admin@zpa-connector ~]$
+
+[admin@zpa-connector ~]$ ps
+  PID TTY          TIME CMD
+14075 pts/0    00:00:00 bash
+14165 pts/0    00:00:00 ps
+[admin@zpa-connector ~]$
+
+[admin@zpa-connector ~]$ ps -e
+  PID TTY          TIME CMD
+    1 ?        00:00:37 systemd
+    2 ?        00:00:00 kthreadd
+    4 ?        00:00:00 kworker/0:0H
+    6 ?        00:00:55 ksoftirqd/0
+    7 ?        00:00:00 migration/0
+    8 ?        00:00:00 rcu_bh
+    9 ?        00:03:31 rcu_sched
+   10 ?        00:00:00 lru-add-drain
+   11 ?        00:00:13 watchdog/0
+   12 ?        00:00:11 watchdog/1
+   13 ?        00:00:00 migration/1
+   14 ?        00:08:28 ksoftirqd/1
+   16 ?        00:00:00 kworker/1:0H
+   18 ?        00:00:00 kdevtmpfs
+   19 ?        00:00:00 netns
+   20 ?        00:00:01 khungtaskd
+   21 ?        00:00:00 writeback
+   22 ?        00:00:00 kintegrityd
+   23 ?        00:00:00 bioset
+   24 ?        00:00:00 bioset
+   25 ?        00:00:00 bioset
+   26 ?        00:00:00 kblockd
+   27 ?        00:00:00 md
+   28 ?        00:00:00 edac-poller
+   29 ?        00:00:00 watchdogd
+   35 ?        00:00:00 kswapd0
+   36 ?        00:00:00 ksmd
+   37 ?        00:00:08 khugepaged
+   38 ?        00:00:00 crypto
+   46 ?        00:00:00 kthrotld
+   48 ?        00:00:00 kmpath_rdacd
+   49 ?        00:00:00 kaluad
+   51 ?        00:00:00 kpsmoused
+   53 ?        00:00:00 ipv6_addrconf
+   66 ?        00:00:00 deferwq
+  104 ?        00:00:00 kauditd
+  192 ?        00:00:00 rpciod
+  193 ?        00:00:00 xprtiod
+  262 ?        00:00:00 nfit
+  263 ?        00:00:00 mpt_poll_0
+  264 ?        00:00:00 mpt/0
+  266 ?        00:00:00 ata_sff
+  319 ?        00:00:00 scsi_eh_0
+  328 ?        00:00:00 scsi_tmf_0
+  337 ?        00:00:00 scsi_eh_1
+  338 ?        00:00:00 scsi_tmf_1
+  339 ?        00:00:00 scsi_eh_2
+  340 ?        00:00:00 scsi_tmf_2
+  362 ?        00:00:00 bioset
+  363 ?        00:00:00 xfsalloc
+  364 ?        00:00:00 xfs_mru_cache
+  365 ?        00:00:00 xfs-buf/sda1
+  366 ?        00:00:00 xfs-data/sda1
+  367 ?        00:00:00 xfs-conv/sda1
+  368 ?        00:00:00 xfs-cil/sda1
+  369 ?        00:00:00 xfs-reclaim/sda
+  370 ?        00:00:00 xfs-log/sda1
+  371 ?        00:00:00 xfs-eofblocks/s
+  372 ?        00:13:50 xfsaild/sda1
+  373 ?        00:00:04 kworker/0:1H
+  465 ?        00:15:00 systemd-journal
+  495 ?        00:00:00 systemd-udevd
+  531 ?        00:00:08 kworker/1:1H
+  532 ?        00:00:02 auditd
+  579 ?        00:00:09 systemd-logind
+  580 ?        00:00:02 polkitd
+  582 ?        00:00:00 VGAuthService
+  583 ?        00:42:50 vmtoolsd
+  591 ?        00:02:41 irqbalance
+  598 ?        00:00:10 dbus-daemon
+  709 ?        00:00:00 irq/16-vmwgfx
+  710 ?        00:00:00 ttm_swap
+  745 ?        00:00:02 firewalld
+ 1074 ?        00:07:04 tuned
+ 1194 ?        00:00:16 master
+ 1196 ?        00:00:02 qmgr
+ 1293 ?        00:08:06 rsyslogd
+ 1301 ?        00:00:05 crond
+ 1302 ?        00:00:00 login
+ 1303 ttyS0    00:00:00 agetty
+ 8734 tty1     00:00:00 bash
+ 9735 ?        00:00:18 chronyd
+13619 ?        00:00:00 kworker/u4:1
+13651 ?        00:00:04 kworker/1:1
+13928 ?        00:00:00 kworker/u4:0
+14056 ?        00:00:00 sshd
+14060 ?        00:00:03 sshd
+14061 ?        00:00:00 sshd
+14065 ?        00:00:00 sshd
+14066 ?        00:00:00 sftp-server
+14075 pts/0    00:00:00 bash
+14123 ?        00:00:00 kworker/0:1
+14132 ?        00:00:00 kworker/0:0
+14136 ?        00:00:00 pickup
+14142 ?        00:00:00 kworker/1:2
+14153 ?        00:00:00 kworker/0:2
+14154 ?        00:00:00 kworker/1:0
+14167 pts/0    00:00:00 ps
+17901 ?        00:00:00 sshd
+17970 ?        15:40:04 zpa-connector
+32353 ?        04:52:12 image.bin
+[admin@zpa-connector ~]$
+
+
+admin@zpa-connector ~]$ ps -aux
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         1  0.0  0.1 127960  6616 ?        Ss   Mar19   0:37 /usr/lib/systemd/systemd --switched-root --system --deserialize
+root         2  0.0  0.0      0     0 ?        S    Mar19   0:00 [kthreadd]
+root         4  0.0  0.0      0     0 ?        S<   Mar19   0:00 [kworker/0:0H]
+root         6  0.0  0.0      0     0 ?        S    Mar19   0:55 [ksoftirqd/0]
+root         7  0.0  0.0      0     0 ?        S    Mar19   0:00 [migration/0]
+root         8  0.0  0.0      0     0 ?        S    Mar19   0:00 [rcu_bh]
+root         9  0.0  0.0      0     0 ?        S    Mar19   3:31 [rcu_sched]
+root        10  0.0  0.0      0     0 ?        S<   Mar19   0:00 [lru-add-drain]
+root        11  0.0  0.0      0     0 ?        S    Mar19   0:13 [watchdog/0]
+root        12  0.0  0.0      0     0 ?        S    Mar19   0:11 [watchdog/1]
+root        13  0.0  0.0      0     0 ?        S    Mar19   0:00 [migration/1]
+root        14  0.0  0.0      0     0 ?        S    Mar19   8:28 [ksoftirqd/1]
+root        16  0.0  0.0      0     0 ?        S<   Mar19   0:00 [kworker/1:0H]
+root        18  0.0  0.0      0     0 ?        S    Mar19   0:00 [kdevtmpfs]
+root        19  0.0  0.0      0     0 ?        S<   Mar19   0:00 [netns]
+root        20  0.0  0.0      0     0 ?        S    Mar19   0:01 [khungtaskd]
+root        21  0.0  0.0      0     0 ?        S<   Mar19   0:00 [writeback]
+root        22  0.0  0.0      0     0 ?        S<   Mar19   0:00 [kintegrityd]
+root        23  0.0  0.0      0     0 ?        S<   Mar19   0:00 [bioset]
+root        24  0.0  0.0      0     0 ?        S<   Mar19   0:00 [bioset]
+root        25  0.0  0.0      0     0 ?        S<   Mar19   0:00 [bioset]
+root        26  0.0  0.0      0     0 ?        S<   Mar19   0:00 [kblockd]
+root        27  0.0  0.0      0     0 ?        S<   Mar19   0:00 [md]
+root        28  0.0  0.0      0     0 ?        S<   Mar19   0:00 [edac-poller]
+root        29  0.0  0.0      0     0 ?        S<   Mar19   0:00 [watchdogd]
+root        35  0.0  0.0      0     0 ?        S    Mar19   0:00 [kswapd0]
+root        36  0.0  0.0      0     0 ?        SN   Mar19   0:00 [ksmd]
+root        37  0.0  0.0      0     0 ?        SN   Mar19   0:08 [khugepaged]
+root        38  0.0  0.0      0     0 ?        S<   Mar19   0:00 [crypto]
+root        46  0.0  0.0      0     0 ?        S<   Mar19   0:00 [kthrotld]
+root        48  0.0  0.0      0     0 ?        S<   Mar19   0:00 [kmpath_rdacd]
+root        49  0.0  0.0      0     0 ?        S<   Mar19   0:00 [kaluad]
+root        51  0.0  0.0      0     0 ?        S<   Mar19   0:00 [kpsmoused]
+root        53  0.0  0.0      0     0 ?        S<   Mar19   0:00 [ipv6_addrconf]
+root        66  0.0  0.0      0     0 ?        S<   Mar19   0:00 [deferwq]
+root       104  0.0  0.0      0     0 ?        S    Mar19   0:00 [kauditd]
+root       192  0.0  0.0      0     0 ?        S<   Mar19   0:00 [rpciod]
+root       193  0.0  0.0      0     0 ?        S<   Mar19   0:00 [xprtiod]
+root       262  0.0  0.0      0     0 ?        S<   Mar19   0:00 [nfit]
+root       263  0.0  0.0      0     0 ?        S<   Mar19   0:00 [mpt_poll_0]
+root       264  0.0  0.0      0     0 ?        S<   Mar19   0:00 [mpt/0]
+root       266  0.0  0.0      0     0 ?        S<   Mar19   0:00 [ata_sff]
+root       319  0.0  0.0      0     0 ?        S    Mar19   0:00 [scsi_eh_0]
+root       328  0.0  0.0      0     0 ?        S<   Mar19   0:00 [scsi_tmf_0]
+root       337  0.0  0.0      0     0 ?        S    Mar19   0:00 [scsi_eh_1]
+root       338  0.0  0.0      0     0 ?        S<   Mar19   0:00 [scsi_tmf_1]
+root       339  0.0  0.0      0     0 ?        S    Mar19   0:00 [scsi_eh_2]
+root       340  0.0  0.0      0     0 ?        S<   Mar19   0:00 [scsi_tmf_2]
+root       362  0.0  0.0      0     0 ?        S<   Mar19   0:00 [bioset]
+root       363  0.0  0.0      0     0 ?        S<   Mar19   0:00 [xfsalloc]
+root       364  0.0  0.0      0     0 ?        S<   Mar19   0:00 [xfs_mru_cache]
+root       365  0.0  0.0      0     0 ?        S<   Mar19   0:00 [xfs-buf/sda1]
+root       366  0.0  0.0      0     0 ?        S<   Mar19   0:00 [xfs-data/sda1]
+root       367  0.0  0.0      0     0 ?        S<   Mar19   0:00 [xfs-conv/sda1]
+root       368  0.0  0.0      0     0 ?        S<   Mar19   0:00 [xfs-cil/sda1]
+root       369  0.0  0.0      0     0 ?        S<   Mar19   0:00 [xfs-reclaim/sda]
+root       370  0.0  0.0      0     0 ?        S<   Mar19   0:00 [xfs-log/sda1]
+root       371  0.0  0.0      0     0 ?        S<   Mar19   0:00 [xfs-eofblocks/s]
+root       372  0.0  0.0      0     0 ?        S    Mar19  13:51 [xfsaild/sda1]
+root       373  0.0  0.0      0     0 ?        S<   Mar19   0:04 [kworker/0:1H]
+root       465  0.0  0.0  39084  3868 ?        Ss   Mar19  15:00 /usr/lib/systemd/systemd-journald
+root       495  0.0  0.1  48096  5240 ?        Ss   Mar19   0:00 /usr/lib/systemd/systemd-udevd
+root       531  0.0  0.0      0     0 ?        S<   Mar19   0:08 [kworker/1:1H]
+root       532  0.0  0.0  55528   884 ?        S<sl Mar19   0:02 /sbin/auditd
+root       579  0.0  0.0  26424  1792 ?        Ss   Mar19   0:09 /usr/lib/systemd/systemd-logind
+polkitd    580  0.0  0.3 612648 11668 ?        Ssl  Mar19   0:02 /usr/lib/polkit-1/polkitd --no-debug
+root       582  0.0  0.1  97560  5936 ?        Ss   Mar19   0:00 /usr/bin/VGAuthService -s
+root       583  0.0  0.1 378912  6468 ?        Ssl  Mar19  42:50 /usr/bin/vmtoolsd
+root       591  0.0  0.0  21728  1320 ?        Ss   Mar19   2:41 /usr/sbin/irqbalance --foreground
+dbus       598  0.0  0.0  66304  2488 ?        Ssl  Mar19   0:10 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopi
+root       709  0.0  0.0      0     0 ?        S    Mar19   0:00 [irq/16-vmwgfx]
+root       710  0.0  0.0      0     0 ?        S<   Mar19   0:00 [ttm_swap]
+root       745  0.0  0.7 358452 29264 ?        Ssl  Mar19   0:02 /usr/bin/python2 -Es /usr/sbin/firewalld --nofork --nopid
+root      1074  0.0  0.4 574204 17396 ?        Ssl  Mar19   7:04 /usr/bin/python2 -Es /usr/sbin/tuned -l -P
+root      1194  0.0  0.0  89700  2176 ?        Ss   Mar19   0:16 /usr/libexec/postfix/master -w
+postfix   1196  0.0  0.1  89872  4080 ?        S    Mar19   0:02 qmgr -l -t unix -u
+root      1293  0.0  0.1 423348  5820 ?        Ssl  Mar19   8:06 /usr/sbin/rsyslogd -n
+root      1301  0.0  0.0 126288  1676 ?        Ss   Mar19   0:05 /usr/sbin/crond -n
+root      1302  0.0  0.0  96568  2520 ?        Ss   Mar19   0:00 login -- admin
+root      1303  0.0  0.0 110108   868 ttyS0    Ss+  Mar19   0:00 /sbin/agetty --keep-baud 115200,38400,9600 ttyS0 vt220
+admin     8734  0.0  0.0 115580  2328 tty1     Ss+  Mar19   0:00 -bash
+chrony    9735  0.0  0.0 100492  1528 ?        S    Mar19   0:18 /usr/sbin/chronyd
+root     13619  0.0  0.0      0     0 ?        S    05:50   0:00 [kworker/u4:1]
+root     13651  0.0  0.0      0     0 ?        S    06:57   0:04 [kworker/1:1]
+root     13928  0.0  0.0      0     0 ?        S    15:00   0:00 [kworker/u4:0]
+root     14056  0.0  0.1 163284  6076 ?        Ss   18:21   0:00 sshd: admin [priv]
+admin    14060  0.1  0.0 163556  2648 ?        S    18:21   0:03 sshd: admin@pts/0
+root     14061  0.0  0.1 163288  5924 ?        Ss   18:21   0:00 sshd: admin [priv]
+admin    14065  0.0  0.0 163288  2328 ?        S    18:21   0:00 sshd: admin@notty
+admin    14066  0.0  0.0  72248  2848 ?        Ss   18:21   0:00 /usr/libexec/openssh/sftp-server
+admin    14075  0.0  0.0 115448  2080 pts/0    Ss   18:21   0:00 -bash
+root     14132  0.0  0.0      0     0 ?        S    18:38   0:00 [kworker/0:0]
+postfix  14136  0.0  0.1  89804  4052 ?        S    18:40   0:00 pickup -l -t unix -u
+root     14142  0.0  0.0      0     0 ?        S    18:44   0:00 [kworker/1:2]
+root     14153  0.0  0.0      0     0 ?        R    18:49   0:00 [kworker/0:2]
+root     14154  0.0  0.0      0     0 ?        S    18:49   0:00 [kworker/1:0]
+admin    14168  0.0  0.0 155372  1868 pts/0    R+   18:54   0:00 ps -aux
+root     17901  0.0  0.1 112920  4348 ?        Ss   Mar19   0:00 /usr/sbin/sshd -D
+root     17970  1.9  7.4 529148 290360 ?       Ssl  Mar19 940:04 /opt/zscaler/bin/zpa-connector
+zscaler  32353  1.1  1.1 940388 44108 ?        Sl   Apr05 292:12 zpa-connector-child
+
+top - 18:55:12 up 34 days,  1:31,  2 users,  load average: 0.10, 0.07, 0.05
+Tasks: 101 total,   1 running, 100 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  0.7 us,  1.0 sy,  0.0 ni, 98.3 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+KiB Mem :  3880640 total,  2288964 free,   494908 used,  1096768 buff/cache
+KiB Swap:        0 total,        0 free,        0 used.  2942048 avail Mem
+
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND
+17970 root      20   0  529148 290360   2720 S   2.0  7.5 940:06.02 zpa-connector
+32353 zscaler   20   0  940388  44108   3748 S   1.7  1.1 292:13.61 image.bin
+  583 root      20   0  378912   6468   5036 S   0.3  0.2  42:50.86 vmtoolsd
+14172 admin     20   0  161892   2212   1544 R   0.3  0.1   0:00.03 top
+    1 root      20   0  127960   6616   4164 S   0.0  0.2   0:37.73 systemd
+    2 root      20   0       0      0      0 S   0.0  0.0   0:00.96 kthreadd
+    4 root       0 -20       0      0      0 S   0.0  0.0   0:00.00 kworker/0:0H
+    6 root      20   0       0      0      0 S   0.0  0.0   0:55.93 ksoftirqd/0
+    7 root      rt   0       0      0      0 S   0.0  0.0   0:00.12 migration/0
+    8 root      20   0       0      0      0 S   0.0  0.0   0:00.00 rcu_bh
+    9 root      20   0       0      0      0 S   0.0  0.0   3:31.77 rcu_sched
+   10 root       0 -20       0      0      0 S   0.0  0.0   0:00.00 lru-add-drain
+   11 root      rt   0       0      0      0 S   0.0  0.0   0:13.60 watchdog/0
+   12 root      rt   0       0      0      0 S   0.0  0.0   0:11.52 watchdog/1
+   13 root      rt   0       0      0      0 S   0.0  0.0   0:00.11 migration/1
+   14 root      20   0       0      0      0 S   0.0  0.0   8:28.84 ksoftirqd/1
+   16 root       0 -20       0      0      0 S   0.0  0.0   0:00.00 kworker/1:0H
+   18 root      20   0       0      0      0 S   0.0  0.0   0:00.00 kdevtmpfs
+   19 root       0 -20       0      0      0 S   0.0  0.0   0:00.00 netns
+   20 root      20   0       0      0      0 S   0.0  0.0   0:01.24 khungtaskd
+   21 root       0 -20       0      0      0 S   0.0  0.0   0:00.00 writeback
+   22 root       0 -20       0      0      0 S   0.0  0.0   0:00.00 kintegrityd
+   23 root       0 -20       0      0      0 S   0.0  0.0   0:00.00 bioset
+   24 root       0 -20       0      0      0 S   0.0  0.0   0:00.00 bioset
+   25 root       0 -20       0      0      0 S   0.0  0.0   0:00.00 bioset
+   26 root       0 -20       0      0      0 S   0.0  0.0   0:00.00 kblockd
+   27 root       0 -20       0      0      0 S   0.0  0.0   0:00.00 md
+   28 root       0 -20       0      0      0 S   0.0  0.0   0:00.00 edac-poller
+
+
+
+https://help.zscaler.com/zpa/managing-deployed-connectors
+
+
+[admin@zpa-connector ~]$ sudo systemctl status zpa-connector
+
+[admin@zpa-connector ~]$ grep -E "RAM" /var/log/dmesg
+
+[admin@zpa-connector ~]$ cat /proc/cpuinfo | grep flags
+
+[admin@zpa-connector ~]$ cat /proc/cpuinfo | grep processor
+
+[admin@zpa-connector ~]$ logout
+
+[admin@zpa-connector ~]$ sudo systemctl start zpa-connector
+[admin@zpa-connector ~]$ sudo systemctl stop zpa-connector
+[admin@zpa-connector ~]$ sudo systemctl restart zpa-connector
+[admin@zpa-connector ~]$ sudo journalctl -u zpa-connector
+[admin@zpa-connector ~]$ sudo journalctl > dump-of-journalctl.txt
+[admin@zpa-connector ~]$ sudo systemctl start sshd
+[admin@zpa-connector ~]$ sudo systemctl stop zpa-connector
+[admin@zpa-connector ~]$ sudo rm /opt/zscaler/var/*
+[admin@zpa-connector ~]$ sudo touch /opt/zscaler/var/provision_key
+[admin@zpa-connector ~]$ sudo chmod 644 /opt/zscaler/var/provision_key
+
+[admin@zpa-connector ~]$ sudo vi /opt/zscaler/var/provision_key
+
+echo "<Connector Provisioning Key>" | sudo tee /opt/zscaler/var/provision_key
+[admin@zpa-connector ~]$ sudo cat /opt/zscaler/var/provision_key
+[admin@zpa-connector ~]$ sudo systemctl start zpa-connector
+
+[admin@zpa-connector ~]$ sudo systemctl stop sshd
+
+[admin@zpa-connector ~]$ sudo yum update -y
+[admin@zpa-connector ~]$ sudo reboot
+[admin@zpa-connector ~]$ sudo vi /etc/yum.conf
+[admin@zpa-connector ~]$ sudo yum update
+[admin@zpa-connector ~]$ sudo systemctl restart zpa-connector
+
+$ scp zpa-connector-17.20.2-1.el7.x86_64.rpm admin@<Connector Hostname or IP Address>
+
+[admin@zpa-connector ~]$ sudo rpm -Uvh zpa-connector-17.20.2-1.el7.x86_64.rpm
+
+[admin@zpa-connector ~]$ sudo rpm -Uvh zpa-connector-17.20.2-1.el7.x86_64.rpm
+
+
+
+Installing any software
+sudo yum -y install telnet
+
+
+
+
+
+
+
+
+

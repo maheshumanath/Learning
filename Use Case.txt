@@ -1,0 +1,6 @@
+FTP Control 
+Control 21 
+Data 20
+
+Use Case For Malware Downloads 
+nchc.dl.sourceforge.net/project/portableapps/gimp%20portable/gimpportable_2.10.18-2.paf.exe
